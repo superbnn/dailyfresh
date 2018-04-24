@@ -2,6 +2,9 @@ from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 # Create your models here.
+from itsdangerous import TimedJSONWebSignatureSerializer
+
+from dailyfresh import settings
 from utils.models import BaseModel
 
 from django.contrib.auth.models import AbstractUser
@@ -9,6 +12,12 @@ from django.contrib.auth.models import AbstractUser
 
 class User(BaseModel, AbstractUser):
     """用户信息模型类"""
+
+    def generate_active_token(self):
+        '''生成激活令牌'''
+        s = TimedJSONWebSignatureSerializer(settings.SECRET_KEY, 3600)
+        token = s.dumps({'confirm': self.id})  # 返回bytes类型
+        return token.decode()
 
     class Meta:
         db_table = 'df_user'
