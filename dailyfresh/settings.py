@@ -145,7 +145,7 @@ EMAIL_FROM = '天天生鲜<xt201230021111@163.com>'   # 收件人接收到邮件
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://127.0.0.1:6379/3",
+        "LOCATION": "redis://127.0.0.1:6379/2",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
             "PASSWORD": ""
@@ -156,3 +156,9 @@ CACHES = {
 # session数据缓存到Redis中
 SESSION_ENGINE = "django.contrib.sessions.backends.cache"
 SESSION_CACHE_ALIAS = "default"
+
+# 指定装饰器@login_required验证失败后跳转到的路径
+LOGIN_URL = '/users/login'
+
+# 配置Django自定义的存储系统
+DEFAULT_FILE_STORAGE = 'utils.fdfs.storage.FdfsStorage'
